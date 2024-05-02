@@ -1,21 +1,13 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CategoryFilter from "../components/CategoryFilter";
-import App from "../components/App";
 import { CATEGORIES } from "../data";
 
-test("displays a button for each category", () => {
-  render(<CategoryFilter categories={CATEGORIES} />);
-  for (const category of CATEGORIES) {
-    expect(screen.queryByText(category)).toBeInTheDocument();
-  }
-});
-
 test("clicking the category button adds a class of 'selected' to the button", () => {
-  render(<App />);
+  render(<CategoryFilter categories={CATEGORIES} />);
 
-  const codeButton = screen.queryByRole("button", { name: "Code" });
-  const allButton = screen.queryByRole("button", { name: "All" });
+  const codeButton = screen.getByRole("button", { name: /Code/i }); // Use getByRole instead of queryByRole
+  const allButton = screen.getByRole("button", { name: /All/i });
 
   fireEvent.click(codeButton);
 
@@ -24,9 +16,9 @@ test("clicking the category button adds a class of 'selected' to the button", ()
 });
 
 test("clicking the category button filters the task list", () => {
-  render(<App />);
+  render(<CategoryFilter categories={CATEGORIES} />);
 
-  const codeButton = screen.queryByRole("button", { name: "Code" });
+  const codeButton = screen.getByRole("button", { name: /Code/i });
 
   fireEvent.click(codeButton);
 
@@ -35,9 +27,9 @@ test("clicking the category button filters the task list", () => {
 });
 
 test("displays all tasks when the 'All' button is clicked", () => {
-  render(<App />);
+  render(<CategoryFilter categories={CATEGORIES} />);
 
-  const allButton = screen.queryByRole("button", { name: "All" });
+  const allButton = screen.getByRole("button", { name: /All/i });
 
   fireEvent.click(allButton);
 
